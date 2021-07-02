@@ -1,4 +1,5 @@
 # Tournament
+Tournament tracker C# application
 
 ## Requirements
  * Track games played and their outcome.
@@ -26,7 +27,9 @@
 
 ## Overall Design
 **Structure:** Windows Forms application and Class Library
+
 **Data:** SQL and/or Text File
+
 **Users:** One at a time on one application
 
 **Key Concepts**
@@ -37,3 +40,38 @@
  * Interfaces
  * Random Ordering
  * Texting
+
+## Data Map
+**Team**
+ * TeamMembers(List<Person>)
+ * TeamName (string)
+
+**Person** 
+ * FirstName (string)
+ * LastName (string)
+ * EmailAddress (string)
+ * CellphoneNumber (string)
+
+**Tournament**
+ * TournamentName (string)
+ * EntryFee (decimal)
+ * EnteredTeams (List<Team>)
+ * Prizes (List<Prize>)
+ * Rounds (List<List<Matchup>>)
+
+**Prize**
+ * PlaceNumber (int)
+ * PlaceName (string)
+ * PrizeAmount (decimal)
+ * PrizePercentage (double)
+
+**Matchup**
+ * Entries (List<MatchupEntry>)
+ * Winner (Team)
+ * MatchupRound (int)
+
+**MatchupEntry**
+ * TeamCompeting (Team)
+ * Score (double)
+ * ParentMatchup (Matchup)
+
