@@ -11,15 +11,15 @@ namespace TrackerLibrary
         /// </summary>
         public int PlaceNumber { get; set; }
         /// <summary>
-        /// Represents the title of the prize.
+        /// The title of the prize e.g. 'First runner up'.
         /// </summary>
         public string PlaceName { get; set; }
         /// <summary>
-        /// Represents the monetary value of the prize.
+        /// The monetary value of the prize.
         /// </summary>
         public decimal PrizeAmount { get; set; }
         /// <summary>
-        /// Represents the monetary value as a percentage of entry fees.  
+        /// The monetary value of the prize as a percentage of entry fees.  
         /// </summary>
         public double PrizePercentage { get; set; }
 

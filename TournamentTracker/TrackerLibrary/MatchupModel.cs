@@ -18,6 +18,5 @@ namespace TrackerLibrary
         /// Represents the number of the round.
         /// </summary>
         public int MatchupRound { get; set; }
-
     }
 }
