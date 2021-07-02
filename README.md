@@ -1,5 +1,5 @@
 # Tournament
-Tournament tracker C# application
+Tournament tracker application.  Written in C# and Visual Studio.
 
 ## Requirements
  * Track games played and their outcome.
