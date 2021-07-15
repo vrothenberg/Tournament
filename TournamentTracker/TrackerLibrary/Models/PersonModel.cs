@@ -7,6 +7,11 @@ namespace TrackerLibrary.Models
     public class PersonModel
     {
         /// <summary>
+        /// The unique identifier for the person.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// The first name of the team player.
         /// </summary>
         public string FirstName { get; set; }
