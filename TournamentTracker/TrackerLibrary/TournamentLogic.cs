@@ -74,18 +74,7 @@ namespace TrackerLibrary
 
         private static int NumberOfByes(int rounds, int numberOfTeams)
         {
-            //return (int)(Math.Pow(2, rounds) - numberOfTeams);
-
-            int output = 0;
-            int totalTeams = 0;
-
-            for (int i = 1; i <= rounds; i++)
-            {
-                totalTeams *= 2;
-            }
-
-            output = totalTeams - numberOfTeams;
-
+            int output = (int)(Math.Pow(2, rounds) - numberOfTeams);
             return output;
         }
 
