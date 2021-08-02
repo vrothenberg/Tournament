@@ -11,18 +11,20 @@ namespace TrackerLibrary.Models
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Represents the number of the round.
+        /// Represents the matchups for a round.
         /// </summary>
-        public int MatchupRound { get; set; }
-
+        public List<MatchupEntryModel> Entries { get; set; } = new List<MatchupEntryModel>();
         /// <summary>
         /// Represents the winning team.
         /// </summary>
         public TeamModel Winner { get; set; }
         /// <summary>
-        /// Represents the matchups for a round.
+        /// Represents the number of the round.
         /// </summary>
-        public List<MatchupEntryModel> Entries { get; set; } = new List<MatchupEntryModel>();
+        public int MatchupRound { get; set; }
+
+
+
 
     }
 }

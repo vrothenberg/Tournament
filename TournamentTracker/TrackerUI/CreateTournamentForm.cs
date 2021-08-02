@@ -125,10 +125,11 @@ namespace TrackerUI
             tm.TournamentName = tournamentNameValue.Text;
             tm.EntryFee = fee;
 
+            // TODO - Validate prize amount less than total fees
             tm.Prizes = selectedPrizes;
             tm.EnteredTeams = selectedTeams;
 
-            // TODO - Create the matchups 
+            // TODO - Create the matchups (complete?)
             TournamentLogic.CreateRounds(tm);
 
             // Create Tournament entry
