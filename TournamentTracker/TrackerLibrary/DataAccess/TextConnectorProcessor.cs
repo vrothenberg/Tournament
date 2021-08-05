@@ -259,28 +259,60 @@ namespace TrackerLibrary.DataAccess.TextHelpers
         {
             string[] ids = input.Split('|');
             List<MatchupEntryModel> output = new List<MatchupEntryModel>();
-            List<MatchupEntryModel> entries = GlobalConfig.MatchupEntryFile.FullFilePath().LoadFile().ConvertToMatchupEntryModels();
+            List<string> entries = GlobalConfig.MatchupEntryFile.FullFilePath().LoadFile();
+            List<string> matchingEntries = new List<string>();
 
             foreach (string id in ids)
             {
-                output.Add(entries.Where(x => x.Id == int.Parse(id)).First());
+                foreach (string entry in entries)
+                {
+                    string[] cols = entry.Split(',');
+                    if (cols[0] == id)
+                    {
+                        matchingEntries.Add(entry);
+                    }
+                }
             }
+
+            output = matchingEntries.ConvertToMatchupEntryModels();
 
             return output;
         }
 
         private static TeamModel LookupTeamById(int id)
         {
-            List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(GlobalConfig.PeopleFile);
+            List<string> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile();
 
-            return teams.Where(x => x.Id == id).First();
+            foreach (string team in teams)
+            {
+                string[] cols = team.Split(',');
+                if (cols[0] == id.ToString())
+                {
+                    List<string> matchingTeams = new List<string>();
+                    matchingTeams.Add(team);
+                    return matchingTeams.ConvertToTeamModels(GlobalConfig.PeopleFile).First();
+                }
+            }
+
+            return null;            
         }
 
         private static MatchupModel LookupMatchupById(int id)
         {
-            List<MatchupModel> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile().ConvertToMatchupModels();
+            List<string> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile();
 
-            return matchups.Where(x => x.Id == id).First();
+            foreach (string matchup in matchups)
+            {
+                string[] cols = matchup.Split(',');
+                if (cols[0] == id.ToString())
+                {
+                    List<string> matchingMatchups = new List<string>();
+                    matchingMatchups.Add(matchup);
+                    return matchingMatchups.ConvertToMatchupModels().First();
+                }
+            }
+
+            return null;
         }
 
         public static List<MatchupModel> ConvertToMatchupModels(this List<string> lines)
@@ -295,7 +327,27 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 MatchupModel m = new MatchupModel();
                 m.Id = int.Parse(cols[0]);
                 m.Entries = ConvertStringToMatchupEntryModels(cols[1]);
-                m.Winner = LookupTeamById(int.Parse(cols[2]));
+
+                //int winnerId = 0;
+                //if (int.TryParse(cols[2], out winnerId))
+                //{
+                //    m.Winner = LookupTeamById(winnerId);
+                //}
+                //else
+                //{
+                //    m.Winner = null;
+                //}
+
+                if (cols[2].Length == 0)
+                {
+                    m.Winner = null;
+                }
+                else
+                {
+                    m.Winner = LookupTeamById(int.Parse(cols[2]));
+                }
+
+                
                 m.MatchupRound = int.Parse(cols[3]);
                 output.Add(m);
             }
@@ -316,6 +368,8 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
 
             matchup.Id = currentId;
+
+            matchups.Add(matchup);
 
             foreach (MatchupEntryModel entry in matchup.Entries)
             {
