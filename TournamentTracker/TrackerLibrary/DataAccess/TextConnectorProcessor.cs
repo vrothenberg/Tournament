@@ -437,12 +437,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
             foreach (TournamentModel tm in models)
             {
-                lines.Add($@"{ tm.Id },
-                        { tm.TournamentName },
-                        { tm.EntryFee },
-                        { ConvertTeamListToString(tm.EnteredTeams) },
-                        { ConvertPrizeListToString(tm.Prizes) },
-                        { ConvertRoundsListToString(tm.Rounds) }");
+                lines.Add($@"{ tm.Id },{ tm.TournamentName },{ tm.EntryFee },{ ConvertTeamListToString(tm.EnteredTeams) },{ ConvertPrizeListToString(tm.Prizes) },{ ConvertRoundsListToString(tm.Rounds) }");
             }
 
             File.WriteAllLines(fileName.FullFilePath(), lines);
