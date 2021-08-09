@@ -107,6 +107,15 @@ namespace TrackerUI
         private void createTournamentButton_Click(object sender, EventArgs e)
         {
             // Validate data
+            if (tournamentNameValue.Text.Length == 0)
+            {
+                MessageBox.Show("You need to enter a Tournament name.",
+                    "Invalid Tournament Name",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
             decimal fee = 0;
             bool feeAcceptable = decimal.TryParse(entryFeeValue.Text, out fee);
 
@@ -119,17 +128,51 @@ namespace TrackerUI
                 return;
             }
 
+            if (tournamentTeamsListBox.Items.Count < 2)
+            {
+                MessageBox.Show("You need to at least 2 teams in the tournament.",
+                    "Invalid Number of Teams",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            decimal totalFee = tournamentTeamsListBox.Items.Count * fee;
+            decimal totalPayout = 0;
+
+            foreach (PrizeModel pz in selectedPrizes)
+            {
+                if (pz.PrizeAmount > 0)
+                {
+                    totalPayout += pz.PrizeAmount;
+                } 
+                else
+                {
+                    totalPayout += ((decimal)pz.PrizePercentage / 100) * totalFee;
+                }                
+            }
+
+            if (totalPayout > totalFee)
+            {
+                MessageBox.Show(string.Format("The total prize payouts ${0} must be less than the total fees ${1}.", totalPayout, totalFee),
+                    "Invalid Prize Amount",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+
             // Create tournament model 
             TournamentModel tm = new TournamentModel();
 
             tm.TournamentName = tournamentNameValue.Text;
             tm.EntryFee = fee;
 
-            // TODO - Validate prize amount less than total fees
+            
             tm.Prizes = selectedPrizes;
             tm.EnteredTeams = selectedTeams;
 
-            // TODO - Create the matchups (complete?)
+            // Create the matchups (complete?)
             TournamentLogic.CreateRounds(tm);
 
             // Create Tournament entry
