@@ -14,14 +14,17 @@ namespace TrackerUI
     public partial class TournamentViewerForm : Form
     {
         private TournamentModel tournament;
-        List<int> rounds = new List<int>();
-        List<MatchupModel> selectedMatchups = new List<MatchupModel>();
+        //List<int> rounds = new List<int>();
+        BindingList<int> rounds = new BindingList<int>();
+        BindingList<MatchupModel> selectedMatchups = new BindingList<MatchupModel>();
 
         public TournamentViewerForm(TournamentModel tournamentModel)
         {
             InitializeComponent();
 
             tournament = tournamentModel;
+
+            WireUpLists();
 
             LoadFormData();
 
@@ -33,22 +36,30 @@ namespace TrackerUI
             tournamentName.Text = tournament.TournamentName;
         }
 
+        private void WireUpLists()
+        {
+            roundDropDown.DataSource = rounds;
+            matchupListBox.DataSource = selectedMatchups;
+            matchupListBox.DisplayMember = "DisplayName";
+        }
+
         private void WireUpRoundsLists()
         {
-            roundDropDown.DataSource = null;
+            //roundDropDown.DataSource = null;
             roundDropDown.DataSource = rounds;
         }
 
         private void WireUpMatchupsLists()
         {
-            matchupListBox.DataSource = null;
+            //matchupListBox.DataSource = null;
             matchupListBox.DataSource = selectedMatchups;
             matchupListBox.DisplayMember = "DisplayName";
         }
 
         private void LoadRounds()
         {
-            rounds = new List<int>();
+            //rounds = new BindingList<int>();
+            rounds.Clear();
 
             rounds.Add(1);
             int currRound = 1;
@@ -62,32 +73,36 @@ namespace TrackerUI
                 }
             }
 
-            WireUpRoundsLists();
+            LoadMatchups(1);
         }
 
         private void roundDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadMatchups();
+            LoadMatchups((int)roundDropDown.SelectedItem);
         }
 
-        private void LoadMatchups()
+        private void LoadMatchups(int round)
         {
-            int round = (int)roundDropDown.SelectedItem;
+            //int round = (int)roundDropDown.SelectedItem;
 
             foreach (List<MatchupModel> matchups in tournament.Rounds)
             {
                 if (matchups.First().MatchupRound == round)
                 {
-                    selectedMatchups = matchups;
+                    //selectedMatchups = new BindingList<MatchupModel>(matchups);
+                    selectedMatchups.Clear();
+                    foreach (MatchupModel m in matchups)
+                    {
+                        selectedMatchups.Add(m);
+                    }
                 }
             }
 
-            WireUpMatchupsLists();
+            LoadMatchup(selectedMatchups.First());
         }
 
-        private void LoadMatchup()
+        private void LoadMatchup(MatchupModel m)
         {
-            MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
             if (m == null)
             {
                 teamOneName.Text = "Not Yet Set";
@@ -134,7 +149,7 @@ namespace TrackerUI
 
         private void matchupListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadMatchup();
+            LoadMatchup((MatchupModel)matchupListBox.SelectedItem);
         }
     }
 }
