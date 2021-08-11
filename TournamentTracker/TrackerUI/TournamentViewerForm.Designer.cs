@@ -86,6 +86,7 @@ namespace TrackerUI
             this.roundDropDown.Name = "roundDropDown";
             this.roundDropDown.Size = new System.Drawing.Size(209, 38);
             this.roundDropDown.TabIndex = 3;
+            this.roundDropDown.SelectedIndexChanged += new System.EventHandler(this.roundDropDown_SelectedIndexChanged);
             // 
             // unplayedOnlyCheckbox
             // 
@@ -109,7 +110,7 @@ namespace TrackerUI
             this.matchupListBox.Name = "matchupListBox";
             this.matchupListBox.Size = new System.Drawing.Size(309, 242);
             this.matchupListBox.TabIndex = 5;
-            this.matchupListBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.matchupListBox.SelectedIndexChanged += new System.EventHandler(this.matchupListBox_SelectedIndexChanged);
             // 
             // teamOneName
             // 
@@ -132,7 +133,6 @@ namespace TrackerUI
             this.teamOneScoreLabel.Size = new System.Drawing.Size(82, 37);
             this.teamOneScoreLabel.TabIndex = 7;
             this.teamOneScoreLabel.Text = "Score";
-            this.teamOneScoreLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // teamOneScoreValue
             // 
@@ -147,7 +147,6 @@ namespace TrackerUI
             this.teamTwoScoreValue.Name = "teamTwoScoreValue";
             this.teamTwoScoreValue.Size = new System.Drawing.Size(100, 35);
             this.teamTwoScoreValue.TabIndex = 11;
-            this.teamTwoScoreValue.TextChanged += new System.EventHandler(this.teamTwoScoreValue_TextChanged);
             // 
             // teamTwoScoreLabel
             // 
@@ -159,7 +158,6 @@ namespace TrackerUI
             this.teamTwoScoreLabel.Size = new System.Drawing.Size(82, 37);
             this.teamTwoScoreLabel.TabIndex = 10;
             this.teamTwoScoreLabel.Text = "Score";
-            this.teamTwoScoreLabel.Click += new System.EventHandler(this.teamTwoScoreLabel_Click);
             // 
             // teamTwoName
             // 
@@ -171,7 +169,6 @@ namespace TrackerUI
             this.teamTwoName.Size = new System.Drawing.Size(165, 37);
             this.teamTwoName.TabIndex = 9;
             this.teamTwoName.Text = "<team two>";
-            this.teamTwoName.Click += new System.EventHandler(this.label2_Click);
             // 
             // versusLabel
             // 

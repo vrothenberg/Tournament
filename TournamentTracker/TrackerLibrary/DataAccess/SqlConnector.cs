@@ -311,9 +311,11 @@ namespace TrackerLibrary.DataAccess
                         }
 
                         currRow.Add(m);
+                        
                     }
-
                     t.Rounds.Add(currRow);
+
+
 
                 }
             }
