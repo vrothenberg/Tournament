@@ -95,6 +95,8 @@ namespace TrackerLibrary.DataAccess
 
                 SaveTournamentRounds(connection, model);
 
+                TournamentLogic.UpdateTournamentResults(model);
+
             }
         }
 
