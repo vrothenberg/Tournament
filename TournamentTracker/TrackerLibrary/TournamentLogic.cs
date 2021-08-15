@@ -9,6 +9,7 @@ namespace TrackerLibrary
 {
     public static class TournamentLogic
     {
+        // TODO: Bug when scoring a bye game
         public static void CreateRounds(TournamentModel model)
         {
             // Order list randomly 

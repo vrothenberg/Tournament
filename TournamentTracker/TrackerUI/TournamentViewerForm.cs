@@ -176,8 +176,54 @@ namespace TrackerUI
             LoadMatchups((int)roundDropDown.SelectedItem);
         }
 
+        private string ValidateData()
+        {
+            string output = "";
+
+            double teamOneScore = 0;
+            double teamTwoScore = 0;
+
+            bool scoreOneValid = double.TryParse(teamOneScoreValue.Text, out teamOneScore);
+            bool scoreTwoValid = double.TryParse(teamTwoScoreValue.Text, out teamTwoScore);
+
+            if (!scoreOneValid)
+            {
+                output = "Team One score value is invalid.";
+            } 
+            else if (!scoreTwoValid)
+            {
+                output = "Team Two score value is invalid.";
+            }
+            else if (teamOneScore == 0 && teamTwoScore == 0)
+            {
+                output = "Must enter a score for at least one team.";
+            }
+            else if (teamOneScore == teamTwoScore)
+            {
+                output = "Tie games not valid.";
+            }
+            else if (teamTwoName.Text == "<bye>")
+            {
+                output = "Cannot score a bye game.";
+            }
+            else if (teamOneName.Text == "Not Yet Set" || teamTwoName.Text == "Not Yet Set")
+            {
+                output = "Cannot score a matchup with undetermined teams.  Complete all matchups in the previous round.";
+            }
+
+            return output;
+        }
+
         private void scoreButton_Click(object sender, EventArgs e)
         {
+            string errorMessage = ValidateData();
+            if (errorMessage.Length > 0)
+            {
+                MessageBox.Show($"Input error: { errorMessage} ");
+                return;
+            }
+
+
             MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
             double teamOneScore = 0;
             double teamTwoScore = 0;
@@ -221,7 +267,15 @@ namespace TrackerUI
                 }
             }
 
-            TournamentLogic.UpdateTournamentResults(tournament);
+            try
+            {
+                TournamentLogic.UpdateTournamentResults(tournament);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"The application had the following error: { ex.Message }");
+            }
 
             LoadMatchups((int)roundDropDown.SelectedItem);
         }
